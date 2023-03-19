@@ -1,5 +1,5 @@
-opencv-python
-numpy
-streamlit_image_coordinates
-Pillow
-matplotlib
+opencv-python==4.6.0.66
+numpy==1.24.1
+streamlit_image_coordinates==0.1.3
+Pillow==7.0.0
+matplotlib==3.1.2
