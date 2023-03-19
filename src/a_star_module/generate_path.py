@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-import sys
+# import sys
 
 class Node:
   def __init__(self, pos, f=0, g=0, h=0, parent=None):
@@ -97,9 +97,9 @@ class path_generator:
       q = open.pop_lowest_weight()
       closed.add(q)
 
-      progress = min(progress, self.distance(q.pos, end))
-      sys.stdout.write("\033[K")
-      print("Connection ", path_num, ": Pathfinding Progress = %", (1- progress/self.distance(start, end))*100, end='\r')
+      # progress = min(progress, self.distance(q.pos, end))
+      # sys.stdout.write("\033[K")
+      # print("Connection ", path_num, ": Pathfinding Progress = %", (1- progress/self.distance(start, end))*100, end='\r')
 
       if np.array_equal(q.pos, end):
         print("")
