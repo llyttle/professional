@@ -2,5 +2,5 @@ numpy
 matplotlib
 Pillow
 scipy
-opencv-python-headless==4.5.1.48
+opencv-python-headless==4.7.0.72
 streamlit_image_coordinates==0.1.3
