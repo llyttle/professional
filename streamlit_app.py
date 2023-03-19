@@ -1,54 +1,98 @@
+# import numpy as np
+# import cv2
+
+# from map_navigation.a_star_main import A_star
+
 import streamlit as st
+# from streamlit_image_coordinates import streamlit_image_coordinates as get_image_coord
+# from PIL import Image
 
-import numpy as np
+# import matplotlib.pyplot as plt
+# import plotly.express as px
 
-from map_navigation.generate_map import map_generator
-from map_navigation.generate_path import path_generator
+# class StreamlitInterface:
+#   def __init__(self):
+#     self.figure_width = 600
+#     self.image_scalar = 0
 
-import matplotlib.pyplot as plt
+#     self.placeholder = st.empty()
 
-from map_navigation.spline_path import spline_path
+#   def config_for_streamlit(self, img):
+#       self.image_scalar = int(self.figure_width / img.shape[1])
 
-if __name__ == "__main__":
-  # Obstacle polygon corners
-  obstacle_list = [np.array([[0, .3], [0, .605], [1.22, .605], [1.22, .3]]),
-                   np.array([[0,-.3], [0,-.605], [1.22,-.605], [1.22,-.3]])]
+#       dim = np.array(img.shape[0:2]) * self.image_scalar
+#       resized = cv2.resize(img, dim[::-1], interpolation = cv2.INTER_AREA)
 
-  waypoints = {"A": np.array([-1,-.8]),
-               "B": np.array([ 1.2, .8]),
-               "C": np.array([-.6,  0]),
-               "D": np.array([-.6, .3]),
-               "E": np.array([-.6, .6]),
-               "F": np.array([1.3,-.6])}
-  
-  map_size = np.array([2.1,3.3])
+#       return Image.fromarray(np.uint8(resized)).convert('RGB')
+
+#   def waitfor_mouse_point(self, img):
+#     coord = get_image_coord(img, key="start")
+
+#     if not coord:
+#       return
+    
+#     point = np.array([float(p) for p in coord.values()]) / self.image_scalar
+
+#     if len(st.session_state["waypoint_list"]) > 0:
+#       if np.all(point == st.session_state["waypoint_list"][-1]):
+#           return
+      
+#     st.session_state["waypoint_list"].append(point)
+#     st.experimental_rerun()
+
+#   def res_slider(self):
+#     st.session_state['waypoint_list'] = []
+
+#   def rerun_button(self):
+#     st.session_state['waypoint_list'] = []
+
+#   def run(self):
+#     if 'waypoint_list' not in st.session_state:
+#       st.session_state['waypoint_list'] = []
 
 
-  resolution = 50   # Resolution of solution in pixels per meter. Min = 8 px/m
+#     st.button("Re-Run", on_click=self.rerun_button)
+
+#     resolution_update = st.slider("Map Resolution (in px/m)", min_value=8, max_value=100, value=12, step=1, on_change=self.res_slider)
+#     a = A_star(resolution_update, st.session_state["waypoint_list"])
 
 
-  #BE WARNED: this funciton also changes the obstacle and waypoints lists
-  M = map_generator(map_size, obstacle_list, waypoints, resolution)
+#     if len(st.session_state['waypoint_list']) < 3:
+#       PIL_image = self.config_for_streamlit(a.get_map())
 
-  P = path_generator(M.map, resolution)
+#       self.waitfor_mouse_point(PIL_image)
 
-  P.A_star(waypoints["A"], waypoints["B"])
+#     else:      
+#       # PIL_image = self.config_for_streamlit(a.get_map())
 
-  P.path = np.flipud(P.path)
+#       # self.placeholder.image(PIL_image)
 
-  new_waypoints = spline_path(P.path[:,0], P.path[:,1], 60)
+#       a.calculate_path()
+#       line = a.get_lines()
+
+#       fig, ax = plt.subplots()
+#       plt.cla()
+#       plt.imshow(a.get_map2())
+#       plt.plot(line[:,0], line[:,1], 'b', alpha=.7, linewidth=3)
+#       plt.axis('equal')
+
+#       ax.patch.set_edgecolor('black')  
+#       ax.patch.set_linewidth(1)
+
+#       plt.tick_params(which='both',
+#                       bottom=False, top=False, left=False, right=False,
+#                       labelbottom=False, labeltop=False, labelleft=False, labelright=False
+#                     )
+
+#       st.pyplot(fig)
+
+   
+
+# if __name__ == "__main__":
+# # Main streamlit interface. Reruns with each user input
+
+#   page = StreamlitInterface()
+#   page.run()
 
 
-  placeholder = st.empty()
-
-  placeholder.image((M.overlay*P.overlay*P.map_basic).astype('uint8'))
-
-  # if True:
-  #   plt.cla()
-
-  #   plt.imshow((M.overlay*P.overlay*P.map_basic).astype('uint8'), interpolation='nearest')
-  #   plt.plot(new_waypoints[0]*resolution, new_waypoints[1]*resolution, 'b', alpha=.7, linewidth=3)
-  #   plt.axis('equal')
-  #   plt.show
-  #   plt.pause(10)
-
+#   # a.calculate_path(resolution)
