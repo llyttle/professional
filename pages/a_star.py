@@ -107,7 +107,7 @@ class StreamlitInterface:
       st.pyplot(fig)
 
     # Place re-run button on the bottom of page. Use callback to trigger page refresh
-    st.button("Re-Run", on_click=self.rerun_button)
+    st.sidebar.button("Re-Run", on_click=self.rerun_button)
 
    
 
