@@ -13,8 +13,11 @@ class A_star():
     self.waypoints = waypoints
 
     # Obstacle polygon corners
-    self.obstacle_list = [np.array([[0, .3], [0, .605], [1.22, .605], [1.22, .3]]),
-                          np.array([[0,-.3], [0,-.605], [1.22,-.605], [1.22,-.3]])]
+    self.obstacle_list = [
+      np.array([[0, .3], [0, .605], [1.22, .605], [1.22, .3]]),
+      np.array([[0,-.3], [0,-.605], [1.22,-.605], [1.22,-.3]]),
+      np.array([[-.5,0], [-.25,.25], [0,0], [-.25,-.25]])
+    ]
 
     self.M = map_generator(self.map_size, self.obstacle_list, self.waypoints, self.resolution)
 

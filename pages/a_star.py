@@ -71,15 +71,23 @@ class StreamlitInterface:
     if 'waypoint_list' not in st.session_state:
       st.session_state['waypoint_list'] = []
 
+# ==========================================================================================
+# == Streamlit Interface Buttons ===========================================================
+
     # Set resolution with sidebar slider. Use callback to trigger page refresh
-    resolution_update = st.sidebar.slider("Map Resolution (in px/m)", min_value=8, max_value=100, value=12, step=1, on_change=self.res_slider)
+    resolution_update = st.sidebar.slider("Map Resolution (in px/m)", min_value=8, max_value=100, value=28, step=1, on_change=self.res_slider)
     
+    # Set the number of waypoints with a sidebar slider
+    num_waypoints = st.sidebar.slider("Number of waypoints", min_value=2, max_value=5, value=2, step=1, on_change=self.res_slider)
+
+    # Place re-run button on the bottom of page. Use callback to trigger page refresh
+    st.sidebar.button("Re-Run", on_click=self.rerun_button)
+
+# ==========================================================================================
+
     # Initialize a_star node with a resolution and the current list of waypoints
     a = A_star(resolution_update, st.session_state["waypoint_list"])
 
-    # Set the number of waypoints with a sidebar slider
-    num_waypoints = st.sidebar.slider("Number of waypoints", min_value=2, max_value=5, value=3, step=1, on_change=self.res_slider)
-    
     # Check if all waypoints have been defined
     if len(st.session_state['waypoint_list']) < num_waypoints:
       PIL_image = self.config_for_streamlit(a.get_map())
@@ -105,11 +113,6 @@ class StreamlitInterface:
                     )
 
       st.pyplot(fig)
-
-    # Place re-run button on the bottom of page. Use callback to trigger page refresh
-    st.sidebar.button("Re-Run", on_click=self.rerun_button)
-
-   
 
 if __name__ == "__main__":
   # Main streamlit interface. Reruns with each user input
